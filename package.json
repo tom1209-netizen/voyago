@@ -1,0 +1,17 @@
+{
+    "name": "voyago",
+    "version": "0.1.0",
+    "private": true,
+    "workspaces": [
+        "client",
+        "server"
+    ],
+    "scripts": {
+        "dev": "concurrently -n client,server -c blue,green \"npm:dev --workspace client\" \"npm:dev --workspace server\"",
+        "build": "npm -w server run build && npm -w client run build",
+        "start": "npm -w server start"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
+}

@@ -1,0 +1,65 @@
+# Node modules (root + workspaces)
+node_modules/
+
+# Logs
+logs
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# PIDs
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Vite / build outputs
+client/dist/
+client/.vite/
+
+# Caches
+.cache/
+node_modules/.cache/
+client/.cache/
+server/.cache/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.*
+!/.env.example
+server/.env
+server/.env.*
+!/server/.env.example
+client/.env
+client/.env.*
+!/client/.env.example
+
+# RAG vector store (generated)
+server/src/store/**
+!server/src/store/.gitkeep
+
+# Coverage
+coverage/
+.nyc_output/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temp
+tmp/
+temp/
+*.local

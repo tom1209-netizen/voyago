@@ -1,0 +1,90 @@
+:root {
+    --bg: #ffffff;
+    --fg: #1f1f1f;
+    --muted: #666;
+    --border: #f0f0f0;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+}
+
+.app-shell {
+    height: 100vh;
+}
+
+.content {
+    padding: 12px;
+    /* make inner pages fill remaining viewport below the 64px header */
+    min-height: calc(100vh - 64px);
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+}
+
+.message.user {
+    background: #fafafa;
+}
+
+.message.assistant {
+    background: #fff;
+}
+
+.msg-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.sources {
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px dashed var(--border);
+    margin-top: 8px;
+    padding-top: 6px;
+}
+
+.input-row {
+    display: flex;
+    gap: 8px;
+}
+
+.input-row .ant-input {
+    flex: 1;
+}
+
+@media (min-width: 768px) {
+    .content {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .chat-layout {
+        flex-direction: column;
+    }
+    .chat-sidebar {
+        position: relative;
+        top: 0;
+        max-height: none;
+        width: 100%;
+    }
+}

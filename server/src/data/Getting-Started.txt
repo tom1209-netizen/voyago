@@ -1,0 +1,5 @@
+This is your internal knowledge base.
+
+- Add .md or .txt files into server/src/data/.
+- The index is built on server startup and persisted.
+- No user uploads are allowed at runtime.
