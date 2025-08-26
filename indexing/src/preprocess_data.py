@@ -77,12 +77,12 @@ def preprocess_excel_to_json(input_path: str, output_path: str):
         print(f"Error processing file: {str(e)}")
 
 if __name__ == "__main__":
-    input_file = "indexing/data/tour_data.yml.csv"
-    output_file = "server/src/store/tour_data_preprocessed.json"
+    input_file = "../data/tour_data.yml.csv"
+    output_file = "../../server/src/store/tour_data_preprocessed.json"
     preprocess_csv(input_file, output_file)
     print(f"Processed data saved to {output_file}")
 
-    input_file = "indexing/data/travel_policy.xlsx"
-    output_file = "server/src/store/travel_policy.json"
+    input_file = "../data/travel_policy.xlsx"
+    output_file = "../../server/src/store/travel_policy.json"
     preprocess_excel_to_json(input_file, output_file)
     print(f"Processed policy saved to {output_file}")
