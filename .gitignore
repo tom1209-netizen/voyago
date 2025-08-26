@@ -65,4 +65,4 @@ temp/
 *.local
 
 # Indexing data
-/indexing/data/
+/indexing/data/*
