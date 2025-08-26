@@ -26,21 +26,35 @@ export async function generateWithContext({
         };
     }
 
-    const instructions = `You are an internal RAG assistant.\n\n- Answer using ONLY the provided context chunks.\n- If the answer isn't in the context, say you don't know succinctly.\n- When you reference context, add inline source markers like [1], [2].`;
+    const tourPrompt = `Tôi là chuyên gia tư vấn du lịch Saigontourist. Dưới đây là thông tin về các tour có sẵn:
+
+${contexts.map((source, index) => 
+  `TOUR ${index + 1}: ${source.title}
+${source.text}
+Nguồn: ${source.source}
+---
+`).join('')}
+
+Câu hỏi khách hàng: "${query}"
+
+PHÂN TÍCH VÀ TRẢ LỜI:
+- Hãy xem xét kỹ các tour ở trên
+- Tìm tour phù hợp với yêu cầu "${query}"
+- Nếu có tour phù hợp, hãy giới thiệu chi tiết:
+  * Tên tour
+  * Thời gian (số ngày)
+  * Lịch trình chi tiết theo ngày
+  * Điểm tham quan nổi bật
+  * Link đặt tour
+- Viết bằng tiếng Việt, thân thiện và chuyên nghiệp
+
+LƯU Ý: "Sa Pa" và "Sapa" là cùng một địa điểm. "3 ngày" có nghĩa là tour 3N2D.`;
 
     const contextBlocks = contexts
         .map((c, i) => `[[${i + 1}]] Source: ${c.title}\nContent:\n${c.text}`)
         .join("\n\n---\n\n");
 
-    const prompt = `${instructions}\n\nUser question:\n${query}\n\nContext:\n${contextBlocks}`;
-
-    const result = await model.generateContent({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: {
-            temperature,
-            maxOutputTokens: 1024,
-        },
-    });
+    const result = await model.generateContent(tourPrompt);
 
     const text = result.response.text();
     return { text };

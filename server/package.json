@@ -8,6 +8,10 @@
         "dev": "nodemon src/index.js",
         "start": "node src/index.js",
         "build": "node src/rag/build-index.js",
+        "build-chroma": "node src/rag/build-chroma.js",
+        "build-chroma-db": "node src/rag/build-chroma-db.js",
+        "build-faiss": "node -e \"import('./src/rag/build-chroma.js').then(m => m.buildChromaFromFiles())\"",
+        "extract-tours": "node src/rag/extract-tours.js",
         "reindex": "rm -rf src/store/* && node src/rag/build-index.js"
     },
     "dependencies": {
@@ -17,11 +21,13 @@
         "@langchain/google-genai": "^0.2.16",
         "@langchain/textsplitters": "^0.1.0",
         "@xenova/transformers": "^2.12.0",
+        "chromadb": "^3.0.14",
         "cors": "^2.8.5",
         "dotenv": "^16.4.5",
         "express": "^4.19.2",
         "marked": "^12.0.2",
-        "morgan": "^1.10.0"
+        "morgan": "^1.10.0",
+        "sqlite3": "^5.1.7"
     },
     "devDependencies": {
         "nodemon": "^3.1.4"
