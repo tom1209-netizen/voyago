@@ -8,7 +8,7 @@ import {
     message as toast,
     Modal,
 } from "antd";
-import { EditOutlined } from '@ant-design/icons'
+import { EditOutlined } from "@ant-design/icons";
 import "../scss/chat.scss";
 const { Text } = Typography;
 
@@ -51,7 +51,7 @@ const genId = () => `c_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 export default function Chat() {
     const [settings] = useSettings();
     const [message, setMessage] = useState("");
-    const [history, setHistory] = useState([]); 
+    const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(false);
     const inputRef = useRef(null);
 
@@ -68,6 +68,9 @@ export default function Chat() {
     // Rename state
     const [editingId, setEditingId] = useState(null);
     const [editingTitle, setEditingTitle] = useState("");
+
+    // Hydration guard for history load/persist
+    const [hydrated, setHydrated] = useState(false);
 
     // Ensure current chat is visible in the sidebar on first load
     useEffect(() => {
@@ -87,6 +90,7 @@ export default function Chat() {
 
     useEffect(() => {
         // Load current chat history from storage
+        setHydrated(false);
         try {
             const saved = JSON.parse(
                 localStorage.getItem(`chat:${chatId}`) || "[]"
@@ -95,13 +99,15 @@ export default function Chat() {
         } catch {
             setHistory([]);
         }
+        setHydrated(true);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chatId]);
 
     useEffect(() => {
-        // Persist current chat history
+        // Persist current chat history (only after hydrated)
+        if (!hydrated) return;
         localStorage.setItem(`chat:${chatId}`, JSON.stringify(history));
-    }, [chatId, history]);
+    }, [chatId, history, hydrated]);
 
     const ensureIndexed = (firstUserText) => {
         const idx = chatIndex.findIndex((c) => c.id === chatId);
