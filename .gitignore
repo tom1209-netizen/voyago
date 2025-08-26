@@ -63,3 +63,6 @@ Thumbs.db
 tmp/
 temp/
 *.local
+
+# Indexing data
+/indexing/data/
