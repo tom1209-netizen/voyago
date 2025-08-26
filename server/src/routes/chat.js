@@ -2,6 +2,7 @@ import { Router } from "express";
 import { retrieve } from "../rag/retriever.js";
 import { generateWithContext } from "../llm/gemini.js";
 import { CONFIG } from "../config.js";
+import { log } from "../util/logger.js";
 
 const router = Router();
 
@@ -12,9 +13,12 @@ router.post("/", async (req, res) => {
             return res.status(400).json({ error: "message is required" });
         }
         const k = Number(options?.retrievalK || CONFIG.RETRIEVAL_K);
+        const threshold = Number(options?.scoreThreshold ?? CONFIG.SCORE_THRESHOLD);
         const temperature = Number(options?.temperature ?? CONFIG.TEMPERATURE);
 
-        const hits = await retrieve(message, k);
+        const hits = await retrieve(message, k, threshold);
+        log.info(`Retrieved ${hits.length}/${k} sources for query (threshold: ${threshold})`);
+        // Apply fixed threshold counting
         const { text, error } = await generateWithContext({
             query: message,
             contexts: hits,

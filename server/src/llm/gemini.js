@@ -43,12 +43,12 @@ PHÂN TÍCH VÀ TRẢ LỜI:
 - Nếu có tour phù hợp, hãy giới thiệu chi tiết:
   * Tên tour
   * Thời gian (số ngày)
+  * Giá (nếu có)
+  * Điểm khởi hành
   * Lịch trình chi tiết theo ngày
   * Điểm tham quan nổi bật
   * Link đặt tour
-- Viết bằng tiếng Việt, thân thiện và chuyên nghiệp
-
-LƯU Ý: "Sa Pa" và "Sapa" là cùng một địa điểm. "3 ngày" có nghĩa là tour 3N2D.`;
+- Viết bằng tiếng Việt, thân thiện và chuyên nghiệp`;
 
     const contextBlocks = contexts
         .map((c, i) => `[[${i + 1}]] Source: ${c.title}\nContent:\n${c.text}`)

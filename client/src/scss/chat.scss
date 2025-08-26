@@ -21,6 +21,74 @@
     text-decoration: underline;
 }
 
+/* Markdown content styling */
+.message-content {
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0.5em 0;
+        font-weight: 600;
+    }
+    
+    h1 { font-size: 1.5em; }
+    h2 { font-size: 1.3em; }
+    h3 { font-size: 1.2em; }
+    h4 { font-size: 1.1em; }
+    
+    p {
+        margin: 0.5em 0;
+        line-height: 1.6;
+    }
+    
+    ul, ol {
+        margin: 0.5em 0;
+        padding-left: 1.5em;
+    }
+    
+    li {
+        margin: 0.25em 0;
+        line-height: 1.5;
+    }
+    
+    strong {
+        font-weight: 600;
+    }
+    
+    em {
+        font-style: italic;
+    }
+    
+    code {
+        background: #f5f5f5;
+        padding: 0.1em 0.3em;
+        border-radius: 3px;
+        font-family: monospace;
+        font-size: 0.9em;
+    }
+    
+    pre {
+        background: #f5f5f5;
+        padding: 1em;
+        border-radius: 6px;
+        overflow-x: auto;
+        margin: 0.5em 0;
+    }
+    
+    blockquote {
+        border-left: 4px solid #ddd;
+        padding-left: 1em;
+        margin: 0.5em 0;
+        color: #666;
+    }
+    
+    a {
+        color: #1677ff;
+        text-decoration: none;
+    }
+    
+    a:hover {
+        text-decoration: underline;
+    }
+}
+
 /* card-like sidebar */
 .chat-sidebar {
     flex: 0 0 300px;
@@ -104,6 +172,34 @@
         flex: 1;
         overflow: auto;
         padding-bottom: 8px;
+        
+        .message {
+            margin-bottom: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            
+            &.user {
+                background: #f0f6ff;
+                border-color: #e6f0ff;
+            }
+            
+            &.assistant {
+                background: #fff;
+            }
+            
+            .msg-meta {
+                margin-bottom: 8px;
+            }
+            
+            .sources {
+                margin-top: 12px;
+                padding-top: 8px;
+                border-top: 1px solid var(--border);
+                font-size: 0.9em;
+                color: #666;
+            }
+        }
     }
 
     .input-row {

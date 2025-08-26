@@ -1,12 +1,36 @@
 import { getVectorRepo } from "./vectorstore.js";
 import { CONFIG } from "../config.js";
+import { log } from "../util/logger.js";
 
-export async function retrieve(query, k = CONFIG.RETRIEVAL_K) {
+export async function retrieve(query, k = CONFIG.RETRIEVAL_K, threshold = CONFIG.SCORE_THRESHOLD) {
     const repo = await getVectorRepo();
-    const results = await repo.search(query, k);
+    
+    // Get more results initially to filter by threshold
+    const maxResults = Math.max(k * 2, 10); // Get at least 10 or 2x the requested amount
+    const results = await repo.search(query, maxResults);
+    
+    // Log all result scores for debugging
+    log.info(`All result scores: [${results.map(r => r.score.toFixed(3)).join(', ')}]`);
+    
+    // Count how many results are above threshold before filtering
+    const aboveThresholdCount = results.filter(r => r.score >= threshold).length;
+    
+    // Filter by threshold and limit to k
+    const filteredResults = results
+        .filter(r => r.score >= threshold)
+        .slice(0, k);
+    
+    log.info(`Found ${results.length} total results, ${aboveThresholdCount} above threshold ${threshold}`);
+    
+    // If no results meet threshold, return top results anyway (but warn)
+    const finalResults = filteredResults.length > 0 ? filteredResults : results.slice(0, Math.min(k, 2));
+    
+    if (filteredResults.length === 0 && results.length > 0) {
+        log.warn(`No results above threshold ${threshold}, returning top ${finalResults.length} results`);
+    }
     
     // Normalize into {text, source, title, score, chunkIndex?, chunkCount?, chunkId?}
-    return results.map((r) => {
+    return finalResults.map((r) => {
         let text = r.doc.pageContent;
         
         // For policy-related queries, enhance the text with policy information

@@ -10,6 +10,7 @@ import {
     Dropdown,
 } from "antd";
 import { MoreOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import ReactMarkdown from "react-markdown";
 import "../scss/chat.scss";
 const { Text } = Typography;
 
@@ -366,12 +367,10 @@ export default function Chat() {
                                             : "Assistant"}
                                     </Text>
                                 </div>
-                                <div style={{ whiteSpace: "pre-wrap" }}>
+                                <div className="message-content">
                                     {m.role === "assistant"
-                                        ? renderCitations(m.content, (n) =>
-                                              openCitation(m, n)
-                                          )
-                                        : m.content}
+                                        ? <ReactMarkdown>{m.content}</ReactMarkdown>
+                                        : <div style={{ whiteSpace: "pre-wrap" }}>{m.content}</div>}
                                 </div>
                                 {m.sources?.length ? (
                                     <div className="sources">

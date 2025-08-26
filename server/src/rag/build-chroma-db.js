@@ -49,9 +49,9 @@ async function buildChromaDB() {
         for (let idx = 0; idx < toursData.length; idx++) {
             const tour = toursData[idx];
             
-            // Create document text for tours
-            const docText = `${tour.tour_name || ''}. ${tour.description || ''}. ${tour.other || ''}`;
-            
+            // Create document text for tours (including price information)
+            // const docText = `${tour.tour_name || ''}. ${tour.description || ''}. ${tour.other || ''}. ${tour.price || ''}`;
+            const docText = `${tour.tour_name || ''}. ${tour.description || ''}. ${tour.other || ''}. Giá: ${tour.price || 'Liên hệ'}`;
             // Generate embedding
             const embedding = await embeddings.embedQuery(docText);
             
