@@ -7,8 +7,9 @@ import {
     Divider,
     message as toast,
     Modal,
+    Dropdown,
 } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { MoreOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "../scss/chat.scss";
 const { Text } = Typography;
 
@@ -170,6 +171,47 @@ export default function Chat() {
         setEditingTitle("");
     };
 
+    // Delete chat (with confirmation)
+    const deleteChat = (chat) => {
+        Modal.confirm({
+            title: "Delete this chat?",
+            content: "This will remove its messages stored in your browser.",
+            okText: "Delete",
+            okType: "danger",
+            cancelText: "Cancel",
+            onOk: () => {
+                const id = chat.id;
+                const remaining = chatIndex.filter((c) => c.id !== id);
+                localStorage.removeItem(`chat:${id}`);
+
+                if (id === chatId) {
+                    if (remaining.length > 0) {
+                        // switch to the first remaining chat
+                        saveChatIndex(remaining);
+                        setChatId(remaining[0].id);
+                    } else {
+                        // no chats left -> create a fresh one
+                        const newId = genId();
+                        const entry = {
+                            id: newId,
+                            title: "New chat",
+                            createdAt: Date.now(),
+                        };
+                        saveChatIndex([entry]);
+                        localStorage.setItem(
+                            `chat:${newId}`,
+                            JSON.stringify([])
+                        );
+                        setChatId(newId);
+                        setHistory([]);
+                    }
+                } else {
+                    saveChatIndex(remaining);
+                }
+            },
+        });
+    };
+
     // Citation modal
     const [citation, setCitation] = useState(null);
     const openCitation = (msg, num) => {
@@ -268,16 +310,42 @@ export default function Chat() {
                                         <div className="title">
                                             {c.title || "Untitled"}
                                         </div>
-                                        <Button
-                                            size="small"
-                                            type="text"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                startRename(c);
+                                        <Dropdown
+                                            trigger={["click"]}
+                                            placement="bottomRight"
+                                            menu={{
+                                                items: [
+                                                    {
+                                                        key: "edit",
+                                                        icon: <EditOutlined />,
+                                                        label: "Edit",
+                                                    },
+                                                    {
+                                                        key: "delete",
+                                                        icon: (
+                                                            <DeleteOutlined />
+                                                        ),
+                                                        label: "Delete",
+                                                        danger: true,
+                                                    },
+                                                ],
+                                                onClick: ({ key }) => {
+                                                    if (key === "edit")
+                                                        startRename(c);
+                                                    if (key === "delete")
+                                                        deleteChat(c);
+                                                },
                                             }}
                                         >
-                                            <EditOutlined />
-                                        </Button>
+                                            <Button
+                                                size="small"
+                                                type="text"
+                                                onClick={(e) =>
+                                                    e.stopPropagation()
+                                                }
+                                                icon={<MoreOutlined />}
+                                            />
+                                        </Dropdown>
                                     </div>
                                 )}
                             </div>
@@ -288,15 +356,6 @@ export default function Chat() {
 
             <main className="chat-main">
                 <div className="chat-box">
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: 8,
-                            alignItems: "center",
-                            marginBottom: 8,
-                        }}
-                    ></div>
-
                     <div className="messages-list">
                         {history.map((m, i) => (
                             <div key={i} className={`message ${m.role}`}>

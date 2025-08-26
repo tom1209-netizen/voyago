@@ -90,7 +90,7 @@
 .chat-main {
     flex: 1;
     min-width: 0;
-    display: flex; /* make column */
+    display: flex; 
     flex-direction: column;
 }
 
@@ -99,20 +99,20 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
-}
 
-.messages-list {
-    flex: 1;
-    overflow: auto;
-    padding-bottom: 8px;
-}
+    .messages-list {
+        flex: 1;
+        overflow: auto;
+        padding-bottom: 8px;
+    }
 
-.input-row {
-    position: sticky;
-    bottom: 0;
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px;
-    z-index: 1;
+    .input-row {
+        position: sticky;
+        bottom: 0;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px;
+        z-index: 1;
+    }
 }
