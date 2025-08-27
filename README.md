@@ -90,8 +90,8 @@ npm -w server run reindex
    * Responses include inline citations like `[1]`, `[2]`
 
 ## API
+Base: <http://localhost:8080>
 
-Base URL: `http://localhost:8080`
 
 ### POST `/api/chat`
 
@@ -154,7 +154,7 @@ Base URL: `http://localhost:8080`
 * `dev`: run client and server concurrently
 * `build`: build vector index, then client
 * `start`: start server (serves built client)
-
+* 
 ### Server (`npm -w server run <script>`)
 
 * `dev`: start server with `nodemon`
@@ -198,6 +198,17 @@ npm start
 
 ## Notes
 
-* The index is internal only. No upload endpoints are exposed.
-* Answers are constrained to retrieved context and cite sources inline.
-* Vector store is gitignored. To commit it, modify `.gitignore` and include `.gitkeep` if needed.
+- The index is internal. No upload endpoints are exposed.
+- Answers are constrained to retrieved context and cite sources inline.
+- Generated vector stores are gitignored by default. To commit a store, adjust `.gitignore` and include a `.gitkeep` if desired.
+
+## Team & Contributions
+
+| Contributor           | Areas               | Highlights / What they did                                                                                                 |
+| --------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| @tom1209-netizen      | **Full Stack**      | Implemented chat UI, citations modal, settings page (temperature, retrievalK). Backend for chatting and basic rag pipeline |
+| @thuyntt-0526         | **RAG**             | Refine the RAG pipeline to accomondate chromaDB                                                                            |
+| @DanLinhHuynh-Niwashi | **PM**              | Make sure our project meet the targetted deadline and write documentation                                                  |
+| @ThuDung213           | **Data Crawl**      | Crawl the data from the web                                                                                                |
+| @phongviet            | **Data Processing** | Preprocess the data into suitable format                                                                                   |
+| @nhatsonle            | **Data Embedding**  | Create indexable embeddings from the cleaned data                                                                          |
