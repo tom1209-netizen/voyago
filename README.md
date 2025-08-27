@@ -67,9 +67,10 @@ Notes:
 - Place `.md` or `.txt` files in server/src/data/.
 - On first run, if empty, a Getting-Started file is seeded.
 - The server builds a vector index and persists it under server/src/store/:
-    - FAISS path: server/src/store/<INDEX_NAME>\_faiss/
-    - HNSWLib path: server/src/store/<INDEX_NAME>\_hnswlib/
+  - FAISS path: server/src/store/<INDEX_NAME>\_faiss/
+  - HNSWLib path: server/src/store/<INDEX_NAME>\_hnswlib/
 - Rebuild index:
+
     ```bash
     npm -w server run reindex
     ```
@@ -99,7 +100,7 @@ Vector DB backends:
 
 ## API
 
-Base: http://localhost:8080
+Base: <http://localhost:8080>
 
 - POST /api/chat
     Request:
@@ -132,6 +133,7 @@ Base: http://localhost:8080
 
 - GET /api/sources
     Response:
+
     ```json
     {
         "items": [
@@ -158,7 +160,7 @@ Root:
 - build: build server index, then client
 - start: start server (serves client build)
 
-Server (npm -w server run <script>):
+Server (npm -w server run `<script>`):
 
 - dev: nodemon src/index.js
 - start: node src/index.js
@@ -172,10 +174,12 @@ Client:
 ## Production
 
 - Build once, then run server:
+
     ```bash
     npm run build
     npm start
     ```
+
 - Express serves the built client from client/dist/.
 - Set production env vars and NODE_ENV=production on the server.
 
@@ -186,10 +190,21 @@ Client:
 - Missing GEMINI_API_KEY:
   - Embeddings fall back to local BGE-small; generation endpoints return an error until a key is provided.
 - No data indexed:
-  - Ensure files exist under server/src/data/ and re-run `npm -w server run reindex`.
+- Ensure files exist under server/src/data/ and re-run `npm -w server run reindex`.
 
 ## Notes
 
 - The index is internal. No upload endpoints are exposed.
 - Answers are constrained to retrieved context and cite sources inline.
 - Generated vector stores are gitignored by default. To commit a store, adjust `.gitignore` and include a `.gitkeep` if desired.
+
+## Team & Contributions
+
+| Contributor           | Areas               | Highlights / What they did                                                                                                 |
+| --------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| @tom1209-netizen      | **Full Stack**      | Implemented chat UI, citations modal, settings page (temperature, retrievalK). Backend for chatting and basic rag pipeline |
+| @thuyntt-0526         | **RAG**             | Refine the RAG pipeline to accomondate chromaDB                                                                            |
+| @DanLinhHuynh-Niwashi | **PM**              | Make sure our project meet the targetted deadline and write documentation                                                  |
+| @ThuDung213           | **Data Crawl**      | Crawl the data from the web                                                                                                |
+| @phongviet            | **Data Processing** | Preprocess the data into suitable format                                                                                   |
+| @nhatsonle            | **Data Embedding**  | Create indexable embeddings from the cleaned data                                                                          |
